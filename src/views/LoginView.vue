@@ -77,15 +77,20 @@ export default {
         if (valid) {
           request
             .post("/login", form)
-            //.get("http://localhost:8080/user", form)
             .then((res) => {
-              // console.log(res);
+              console.log(res);
               // 存token setItem(key,value)
-              if (res.code == 200) {
-                //sessionStorage.setItem(token, res.data.token);
+              console.log(res)
+              if (res.success == true) {
                 ElMessage.success("登录成功");
-                router.push("/home");
+
                 localStorage.setItem("ms_username", form.username);
+
+                if(res.data.collected == true){
+                  router.push("/home");
+                }else {
+                  router.push("/collect")
+                }
               } else {
                 ElMessage.error({
                   message: '登录失败:' + res.message,
@@ -98,7 +103,7 @@ export default {
               });
             });
         } else {
-          ElMessage.error("登录失败！");
+          ElMessage.error("账号或密码未填写！");
           return false;
         }
       });
@@ -124,7 +129,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url(../assets/login-bg.jpg);
+  background-image: url(../assets/login_bg.jpg);
   background-size: 100%;
   animation: slide-bottom 0.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
 }

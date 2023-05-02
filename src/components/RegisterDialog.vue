@@ -14,7 +14,7 @@
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item prop="password" label="密码" :label-width="formLabelWidth">
+        <el-form-item prop="password" label="密码" :label-width="formLabelWidth">
         <el-input
           type="password"
           v-model="form.password"
@@ -50,6 +50,7 @@ import { ref, reactive, computed } from "vue";
 import { ElMessage } from "element-plus";
 import { useStore } from "vuex";
 import request from "../utils/request.js";
+import {useRouter} from "vue-router";
 export default {
   name: "RegisterDialog",
   setup() {
@@ -58,7 +59,17 @@ export default {
       username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
       password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       checkPassword: [
-        { required: true, message: "请输入校验密码", trigger: "blur" },
+        { required: true, message: "请输入重复密码", trigger: "blur" },
+        {
+          validator: (rule, value, callback) => {
+            if (value !== form.password) {
+              callback(new Error('两次输入的密码不一致'));
+            } else {
+              callback();
+            }
+          },
+          trigger: 'blur'
+        }
       ],
     };
     const form = reactive({
@@ -67,6 +78,7 @@ export default {
       checkPassword: ""
     });
     const register = ref(null);
+    const router = useRouter();
     const handleRegister = () => {
       register.value.validate((valid) => {
         if (valid) {
@@ -78,10 +90,11 @@ export default {
             .then((res) => {
               // console.log(res);
               // 存token setItem(key,value)
-              if (res.code == 200) {
+              if (res.success == true) {
                 //sessionStorage.setItem(token, res.data.token);
                 ElMessage.success("注册成功！");
-                store.commit("closeRegisterDialog");
+                router.push("/userInformation")
+                // store.commit("closeRegisterDialog");
               } else {
                 
                 ElMessage.error({
@@ -97,8 +110,11 @@ export default {
                 message: err.message
               });
             });
+          form.password="";
+          form.checkPassword="";
+          form.username="";
         } else {
-          ElMessage.error("登录失败");
+          ElMessage.error("密码与重复密码不一致");
           return false;
         }
       });

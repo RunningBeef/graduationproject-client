@@ -1,3 +1,4 @@
+<!--高校信息查询-->
 <template>
   <div class="school-wrap">
     <div class="search-header">

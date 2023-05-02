@@ -10,11 +10,27 @@ const routes = [{
     redirect: '/login'
   },
   {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/testView'),
+    meta: {
+      title: '测试|高考志愿推荐系统'
+    }
+  },
+  {
+    path:'/collect',
+    name: 'collect',
+    component: () => import('../views/collectPreferenceView'),
+    meta: {
+      title: '信息填写|高考志愿推荐系统'
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue'),
     meta: {
-      title: '登录|高考推荐数据库'
+      title: '登录|高考志愿推荐系统'
     }
   },
   {
@@ -30,7 +46,7 @@ const routes = [{
         component: () => import('../views/SchoolView.vue'),
         meta: {
           need2Login: 1,
-          title: '学校查询|高考推荐数据库'
+          title: '学校查询|高考志愿推荐系统'
         }
       },
       {
@@ -39,7 +55,7 @@ const routes = [{
         component: () => import('../views/SpecialView.vue'),
         meta: {
           need2Login: 1,
-          title: '专业查询|高考推荐数据库'
+          title: '专业查询|高考志愿推荐系统'
         }
       },
       {
@@ -48,7 +64,7 @@ const routes = [{
         component: () => import('../views/RecommendView.vue'),
         meta: {
           need2Login: 1,
-          title: '报考推荐|高考推荐数据库'
+          title: '报考推荐|高考志愿推荐系统'
         }
       },
     ]
@@ -58,7 +74,7 @@ const routes = [{
     name: 'detail',
     component: () => import('../views/SchoolDetailView.vue'),
     meta: {
-      title: '学校详情|高考推荐数据库'
+      title: '学校详情|高考志愿推荐系统'
     }
   },
 ]
@@ -75,13 +91,14 @@ router.beforeEach((to, from, next) => { //全局钩子函数
   if (to.path === '/login') {
     next();
   } else {
-    if(localStorage.getItem('ms_username') === null){
-      alert("请登录！")
-      next('/login');
-    }else{
-      // next('/login');
-      next();
-    }
+    // if(localStorage.getItem('ms_username') === null){
+    //   alert("请登录！")
+    //   next('/login');
+    // }else{
+    //   // next('/login');
+    //   next();
+    // }
+    next();
   }
 });
 

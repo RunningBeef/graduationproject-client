@@ -15,8 +15,8 @@ module.exports = defineConfig({
       '/api': { // 拦截以 /api 开头的url接口
         // target: 'http://gkzytbsxdez5050.vaiwan.com', //目标接口域名
         // target: 'http://127.0.0.1:4523/m1/1261128-0-default',
-        // target: 'http://127.0.0.1:5000',
-        target: 'http://47.103.139.192:5000',
+        target: 'http://127.0.0.1:80',
+        // target: 'http://47.103.139.192:5000',
         changeOrigin: true, //是否跨域
         ws: true, //如果要代理 websockets，配置这个参数
         secure: false, // 如果是https接口，需要配置这个参数
